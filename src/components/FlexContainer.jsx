@@ -1,20 +1,25 @@
-import React, { useReducer } from 'react';
-import AppReducer from '../data/AppReducer';
-import { Container, Row, Col } from 'react-bootstrap';
+import React, { useContext } from "react";
+import AppContext from "../data/AppContext";
+import { Container, Row, Col } from "react-bootstrap";
 
-function FlexContainer({ element: Element, data }) {
-  const [items, dispatch] = useReducer(AppReducer, data);
+function FlexContainer({ element: Element }) {
+  const { items } = useContext(AppContext); // Pobierz items z kontekstu
 
   return (
-    <Container className="d-flex justify-content-center my-4">
-      <Row className="justify-content-center" style={{ width: '100%' }}>
+    <Container className="my-4">
+      <Row className="justify-content-center" style={{ width: "100%" }}>
         {items.map((item) => (
-          <Col 
-            key={item.id} 
-            xs={12} sm={6} md={4} lg={3} // Responsywne kolumny
+          <Col
+            key={item.id}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={4} // Zwiększ rozmiar kolumn, aby karty były szersze
             className="d-flex justify-content-center mb-4"
           >
-            <Element {...item} dispatch={dispatch} />
+            <div style={{ width: "100%", maxWidth: "350px" }}> {/* Ograniczenie szerokości */}
+              <Element {...item} />
+            </div>
           </Col>
         ))}
       </Row>
